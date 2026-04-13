@@ -1,0 +1,78 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Repos\\Hangfire.Dashboard\\src\\Hangfire.Dashboard\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2CF45206-C9E3-0C5F-6AD7-0383D06BAE56}|Hangfire.Dashboard\\Hangfire.Dashboard.csproj|d:\\repos\\hangfire.dashboard\\src\\hangfire.dashboard\\hangfire.dashboard\\hangfire.dashboard.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{2CF45206-C9E3-0C5F-6AD7-0383D06BAE56}|Hangfire.Dashboard\\Hangfire.Dashboard.csproj|solutionrelative:hangfire.dashboard\\hangfire.dashboard.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2CF45206-C9E3-0C5F-6AD7-0383D06BAE56}|Hangfire.Dashboard\\Hangfire.Dashboard.csproj|d:\\repos\\hangfire.dashboard\\src\\hangfire.dashboard\\hangfire.dashboard\\apis\\hangfirecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2CF45206-C9E3-0C5F-6AD7-0383D06BAE56}|Hangfire.Dashboard\\Hangfire.Dashboard.csproj|solutionrelative:hangfire.dashboard\\apis\\hangfirecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Hangfire.Dashboard",
+              "DocumentMoniker": "D:\\Repos\\Hangfire.Dashboard\\src\\Hangfire.Dashboard\\Hangfire.Dashboard\\Hangfire.Dashboard.csproj",
+              "RelativeDocumentMoniker": "Hangfire.Dashboard\\Hangfire.Dashboard.csproj",
+              "ToolTip": "D:\\Repos\\Hangfire.Dashboard\\src\\Hangfire.Dashboard\\Hangfire.Dashboard\\Hangfire.Dashboard.csproj",
+              "RelativeToolTip": "Hangfire.Dashboard\\Hangfire.Dashboard.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-04-13T16:58:26.107Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "HangfireController.cs",
+              "DocumentMoniker": "D:\\Repos\\Hangfire.Dashboard\\src\\Hangfire.Dashboard\\Hangfire.Dashboard\\Apis\\HangfireController.cs",
+              "RelativeDocumentMoniker": "Hangfire.Dashboard\\Apis\\HangfireController.cs",
+              "ToolTip": "D:\\Repos\\Hangfire.Dashboard\\src\\Hangfire.Dashboard\\Hangfire.Dashboard\\Apis\\HangfireController.cs",
+              "RelativeToolTip": "Hangfire.Dashboard\\Apis\\HangfireController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAF4AAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-13T16:57:59.639Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "dgSpecHash": "TPP10+lS714=",
+  "success": true,
+  "projectFilePath": "D:\\Repos\\Hangfire.Dashboard\\src\\Hangfire.Dashboard\\Hangfire.Dashboard\\Hangfire.Dashboard.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\malik\\.nuget\\packages\\hangfire.aspnetcore\\1.8.23\\hangfire.aspnetcore.1.8.23.nupkg.sha512",
+    "C:\\Users\\malik\\.nuget\\packages\\hangfire.core\\1.8.23\\hangfire.core.1.8.23.nupkg.sha512",
+    "C:\\Users\\malik\\.nuget\\packages\\hangfire.netcore\\1.8.23\\hangfire.netcore.1.8.23.nupkg.sha512",
+    "C:\\Users\\malik\\.nuget\\packages\\newtonsoft.json\\11.0.1\\newtonsoft.json.11.0.1.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "message": "Package 'Newtonsoft.Json' 11.0.1 has a known high severity vulnerability, https://github.com/advisories/GHSA-5crp-9r3c-p9vr",
+      "projectPath": "D:\\Repos\\Hangfire.Dashboard\\src\\Hangfire.Dashboard\\Hangfire.Dashboard\\Hangfire.Dashboard.csproj",
+      "warningLevel": 1,
+      "filePath": "D:\\Repos\\Hangfire.Dashboard\\src\\Hangfire.Dashboard\\Hangfire.Dashboard\\Hangfire.Dashboard.csproj",
+      "libraryId": "Newtonsoft.Json",
+      "targetGraphs": [
+        "net10.0",
+        "net8.0",
+        "net9.0"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Repos\\Hangfire.Dashboard\\src\\Hangfire.Dashboard\\Hangfire.Dashboard\\wwwroot\\css\\hangfire-dashboard.css",
+      "PackagePath": "staticwebassets\\css\\hangfire-dashboard.css"
+    },
+    {
+      "Id": "D:\\Repos\\Hangfire.Dashboard\\src\\Hangfire.Dashboard\\Hangfire.Dashboard\\wwwroot\\js\\hangfire-dashboard.js",
+      "PackagePath": "staticwebassets\\js\\hangfire-dashboard.js"
+    },
+    {
+      "Id": "obj\\Release\\net9.0\\staticwebassets\\msbuild.Hangfire.Dashboard.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Release\\net9.0\\staticwebassets\\msbuild.Hangfire.Dashboard.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Release\\net9.0\\staticwebassets\\msbuild.build.Hangfire.Dashboard.props",
+      "PackagePath": "build\\Hangfire.Dashboard.props"
+    },
+    {
+      "Id": "obj\\Release\\net9.0\\staticwebassets\\msbuild.buildMultiTargeting.Hangfire.Dashboard.props",
+      "PackagePath": "buildMultiTargeting\\Hangfire.Dashboard.props"
+    },
+    {
+      "Id": "obj\\Release\\net9.0\\staticwebassets\\msbuild.buildTransitive.Hangfire.Dashboard.props",
+      "PackagePath": "buildTransitive\\Hangfire.Dashboard.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

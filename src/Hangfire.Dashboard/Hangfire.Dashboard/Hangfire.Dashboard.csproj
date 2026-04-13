@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <StaticWebAssetBasePath>hangfire-dashboard</StaticWebAssetBasePath>
+
+    <!-- NuGet Package Metadata -->
+    <IsPackable>true</IsPackable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Hangfire.Dashboard</PackageId>
+    <Authors>abmalik.com</Authors>
+    <Company>abmalik.com</Company>
+    <Description>A modern, customizable Hangfire Dashboard as a Razor Class Library (RCL). Provides a fully featured jobs management UI with filtering, pagination, bulk actions, real-time charts, and configurable authentication/authorization. Ships as a NuGet package targeting .NET 8, 9, and 10.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://abmalik.com</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/abmalik/Hangfire.Dashboard</RepositoryUrl>
+    <PackageTags>hangfire;dashboard;aspnetcore;razor;background-jobs;rcl</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hangfire.Core" Version="1.8.*" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\Readme.md" Pack="true" PackagePath="\" Link="README.md" />
+  </ItemGroup>
+
+</Project>

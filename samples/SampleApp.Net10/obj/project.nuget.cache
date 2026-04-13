@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "dgSpecHash": "SdtvftpqvrY=",
+  "success": true,
+  "projectFilePath": "D:\\Repos\\Hangfire.Dashboard\\samples\\SampleApp.Net10\\SampleApp.Net10.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\malik\\.nuget\\packages\\hangfire.aspnetcore\\1.8.23\\hangfire.aspnetcore.1.8.23.nupkg.sha512",
+    "C:\\Users\\malik\\.nuget\\packages\\hangfire.core\\1.8.23\\hangfire.core.1.8.23.nupkg.sha512",
+    "C:\\Users\\malik\\.nuget\\packages\\hangfire.inmemory\\1.0.0\\hangfire.inmemory.1.0.0.nupkg.sha512",
+    "C:\\Users\\malik\\.nuget\\packages\\hangfire.netcore\\1.8.23\\hangfire.netcore.1.8.23.nupkg.sha512",
+    "C:\\Users\\malik\\.nuget\\packages\\newtonsoft.json\\11.0.1\\newtonsoft.json.11.0.1.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "message": "Package 'Newtonsoft.Json' 11.0.1 has a known high severity vulnerability, https://github.com/advisories/GHSA-5crp-9r3c-p9vr",
+      "projectPath": "D:\\Repos\\Hangfire.Dashboard\\samples\\SampleApp.Net10\\SampleApp.Net10.csproj",
+      "warningLevel": 1,
+      "filePath": "D:\\Repos\\Hangfire.Dashboard\\samples\\SampleApp.Net10\\SampleApp.Net10.csproj",
+      "libraryId": "Newtonsoft.Json",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
+}

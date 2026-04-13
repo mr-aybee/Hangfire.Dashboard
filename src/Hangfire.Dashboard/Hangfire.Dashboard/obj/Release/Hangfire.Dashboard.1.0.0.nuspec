@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Hangfire.Dashboard</id>
+    <version>1.0.0</version>
+    <authors>abmalik.com</authors>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <readme>README.md</readme>
+    <projectUrl>https://abmalik.com/</projectUrl>
+    <description>A modern, customizable Hangfire Dashboard as a Razor Class Library (RCL). Provides a fully featured jobs management UI with filtering, pagination, bulk actions, real-time charts, and configurable authentication/authorization. Ships as a NuGet package targeting .NET 8, 9, and 10.</description>
+    <tags>hangfire dashboard aspnetcore razor background-jobs rcl</tags>
+    <repository type="git" url="https://github.com/abmalik/Hangfire.Dashboard" />
+    <dependencies>
+      <group targetFramework="net8.0">
+        <dependency id="Hangfire.AspNetCore" version="1.8.23" exclude="Build,Analyzers" />
+        <dependency id="Hangfire.Core" version="1.8.23" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net9.0">
+        <dependency id="Hangfire.AspNetCore" version="1.8.23" exclude="Build,Analyzers" />
+        <dependency id="Hangfire.Core" version="1.8.23" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net10.0">
+        <dependency id="Hangfire.AspNetCore" version="1.8.23" exclude="Build,Analyzers" />
+        <dependency id="Hangfire.Core" version="1.8.23" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkReferences>
+      <group targetFramework="net8.0">
+        <frameworkReference name="Microsoft.AspNetCore.App" />
+      </group>
+      <group targetFramework="net9.0">
+        <frameworkReference name="Microsoft.AspNetCore.App" />
+      </group>
+      <group targetFramework="net10.0">
+        <frameworkReference name="Microsoft.AspNetCore.App" />
+      </group>
+    </frameworkReferences>
+  </metadata>
+  <files>
+    <file src="D:\Repos\Hangfire.Dashboard\src\Hangfire.Dashboard\Hangfire.Dashboard\bin\Release\net10.0\Hangfire.Dashboard.dll" target="lib\net10.0\Hangfire.Dashboard.dll" />
+    <file src="D:\Repos\Hangfire.Dashboard\src\Hangfire.Dashboard\Hangfire.Dashboard\bin\Release\net10.0\Hangfire.Dashboard.xml" target="lib\net10.0\Hangfire.Dashboard.xml" />
+    <file src="D:\Repos\Hangfire.Dashboard\src\Hangfire.Dashboard\Hangfire.Dashboard\bin\Release\net8.0\Hangfire.Dashboard.dll" target="lib\net8.0\Hangfire.Dashboard.dll" />
+    <file src="D:\Repos\Hangfire.Dashboard\src\Hangfire.Dashboard\Hangfire.Dashboard\bin\Release\net8.0\Hangfire.Dashboard.xml" target="lib\net8.0\Hangfire.Dashboard.xml" />
+    <file src="D:\Repos\Hangfire.Dashboard\src\Hangfire.Dashboard\Hangfire.Dashboard\bin\Release\net9.0\Hangfire.Dashboard.dll" target="lib\net9.0\Hangfire.Dashboard.dll" />
+    <file src="D:\Repos\Hangfire.Dashboard\src\Hangfire.Dashboard\Hangfire.Dashboard\bin\Release\net9.0\Hangfire.Dashboard.xml" target="lib\net9.0\Hangfire.Dashboard.xml" />
+    <file src="D:\Repos\Hangfire.Dashboard\src\Hangfire.Dashboard\Hangfire.Dashboard\wwwroot\css\hangfire-dashboard.css" target="staticwebassets\css\hangfire-dashboard.css" />
+    <file src="D:\Repos\Hangfire.Dashboard\src\Hangfire.Dashboard\Hangfire.Dashboard\wwwroot\js\hangfire-dashboard.js" target="staticwebassets\js\hangfire-dashboard.js" />
+    <file src="D:\Repos\Hangfire.Dashboard\src\Hangfire.Dashboard\Hangfire.Dashboard\obj\Release\net8.0\staticwebassets\msbuild.Hangfire.Dashboard.Microsoft.AspNetCore.StaticWebAssetEndpoints.props" target="build\Microsoft.AspNetCore.StaticWebAssetEndpoints.props" />
+    <file src="D:\Repos\Hangfire.Dashboard\src\Hangfire.Dashboard\Hangfire.Dashboard\obj\Release\net8.0\staticwebassets\msbuild.Hangfire.Dashboard.Microsoft.AspNetCore.StaticWebAssets.props" target="build\Microsoft.AspNetCore.StaticWebAssets.props" />
+    <file src="D:\Repos\Hangfire.Dashboard\src\Hangfire.Dashboard\Hangfire.Dashboard\obj\Release\net8.0\staticwebassets\msbuild.build.Hangfire.Dashboard.props" target="build\Hangfire.Dashboard.props" />
+    <file src="D:\Repos\Hangfire.Dashboard\src\Hangfire.Dashboard\Hangfire.Dashboard\obj\Release\net8.0\staticwebassets\msbuild.buildMultiTargeting.Hangfire.Dashboard.props" target="buildMultiTargeting\Hangfire.Dashboard.props" />
+    <file src="D:\Repos\Hangfire.Dashboard\src\Hangfire.Dashboard\Hangfire.Dashboard\obj\Release\net8.0\staticwebassets\msbuild.buildTransitive.Hangfire.Dashboard.props" target="buildTransitive\Hangfire.Dashboard.props" />
+    <file src="D:\Repos\Hangfire.Dashboard\Readme.md" target="\Readme.md" />
+  </files>
+</package>

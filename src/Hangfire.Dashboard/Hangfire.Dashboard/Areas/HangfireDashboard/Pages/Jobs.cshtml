@@ -1,0 +1,333 @@
+@page "/jobs"
+@using Hangfire.Dashboard.Areas.HangfireDashboard.Pages
+@model JobsModel
+@{
+    ViewData["Title"] = Model.Title;
+    Layout = Model.LayoutPath ?? "~/Areas/HangfireDashboard/Pages/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/hangfire-dashboard/css/hangfire-dashboard.css" asp-append-version="true" />
+}
+
+<div class="hf-dashboard">
+
+    <!-- ── Page Header ──────────────────────────────────────────────── -->
+    <div class="hf-page-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="hf-page-title">
+                    <i class="fas fa-tasks me-2"></i>Jobs Dashboard
+                </h4>
+                <p class="hf-page-subtitle">Hangfire background job management</p>
+            </div>
+            <button class="btn btn-sm btn-outline-secondary" id="btnRefresh" title="Refresh all data">
+                <i class="fas fa-sync-alt me-1"></i>Refresh
+            </button>
+        </div>
+    </div>
+
+    <!-- ── Stats Cards ──────────────────────────────────────────────── -->
+    <div class="row g-2 mb-3" id="statsRow">
+        <div class="col-6 col-lg-2">
+            <div class="hf-stat-card hf-stat-enqueued">
+                <div class="hf-stat-icon"><i class="fas fa-inbox"></i></div>
+                <div class="hf-stat-body">
+                    <div class="hf-stat-label">Enqueued</div>
+                    <div class="hf-stat-value" id="statEnqueued">-</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-2">
+            <div class="hf-stat-card hf-stat-processing">
+                <div class="hf-stat-icon"><i class="fas fa-spinner"></i></div>
+                <div class="hf-stat-body">
+                    <div class="hf-stat-label">Processing</div>
+                    <div class="hf-stat-value" id="statProcessing">-</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-2">
+            <div class="hf-stat-card hf-stat-scheduled">
+                <div class="hf-stat-icon"><i class="fas fa-clock"></i></div>
+                <div class="hf-stat-body">
+                    <div class="hf-stat-label">Scheduled</div>
+                    <div class="hf-stat-value" id="statScheduled">-</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-2">
+            <div class="hf-stat-card hf-stat-succeeded">
+                <div class="hf-stat-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="hf-stat-body">
+                    <div class="hf-stat-label">Succeeded</div>
+                    <div class="hf-stat-value" id="statSucceeded">-</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-2">
+            <div class="hf-stat-card hf-stat-failed">
+                <div class="hf-stat-icon"><i class="fas fa-exclamation-circle"></i></div>
+                <div class="hf-stat-body">
+                    <div class="hf-stat-label">Failed</div>
+                    <div class="hf-stat-value" id="statFailed">-</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-lg-2">
+            <div class="hf-stat-card hf-stat-recurring">
+                <div class="hf-stat-icon"><i class="fas fa-redo"></i></div>
+                <div class="hf-stat-body">
+                    <div class="hf-stat-label">Recurring</div>
+                    <div class="hf-stat-value" id="statRecurring">-</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Tabs ─────────────────────────────────────────────────────── -->
+    <ul class="nav nav-tabs hf-tabs mb-3" id="hfTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="tab-jobs" data-bs-toggle="tab"
+                    data-bs-target="#panel-jobs" type="button" role="tab">
+                <i class="fas fa-list me-1"></i>Jobs
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab-queues" data-bs-toggle="tab"
+                    data-bs-target="#panel-queues" type="button" role="tab">
+                <i class="fas fa-layer-group me-1"></i>Queues
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab-servers" data-bs-toggle="tab"
+                    data-bs-target="#panel-servers" type="button" role="tab">
+                <i class="fas fa-server me-1"></i>Servers
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab-recurring" data-bs-toggle="tab"
+                    data-bs-target="#panel-recurring" type="button" role="tab">
+                <i class="fas fa-sync me-1"></i>Recurring
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab-graphs" data-bs-toggle="tab"
+                    data-bs-target="#panel-graphs" type="button" role="tab">
+                <i class="fas fa-chart-line me-1"></i>Graphs
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+
+        <!-- ── Jobs Panel ──────────────────────────────────────────── -->
+        <div class="tab-pane fade show active" id="panel-jobs" role="tabpanel">
+
+            <!-- ── Collapsible Filters ──────────────────────────────── -->
+            <div class="hf-prefilter" data-state="active">
+                <div class="hf-prefilter-header" id="hfPrefilterHeader">
+                    <div class="hf-prefilter-header-left">
+                        <i class="fas fa-filter hf-prefilter-icon"></i>
+                        <span class="hf-prefilter-title">Filters</span>
+                        <div class="hf-prefilter-summary" id="hfPrefilterSummary" style="display:none"></div>
+                    </div>
+                    <div class="hf-prefilter-header-right">
+                        <button type="button" class="btn btn-sm btn-link hf-prefilter-clear-btn" id="btnClearFilters" title="Clear all filters">
+                            <i class="fas fa-eraser me-1"></i>Clear
+                        </button>
+                        <button type="button" class="hf-prefilter-toggle-btn" title="Toggle Filters">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="hf-prefilter-body" id="hfPrefilterBody">
+                    <div class="hf-prefilter-row">
+                        <div class="hf-prefilter-field hf-prefilter-col-2">
+                            <label class="hf-filter-label" for="filterState">State</label>
+                            <select id="filterState" class="form-select form-select-sm hf-prefilter-input"
+                                    data-filter-label="State">
+                                <option value="">All States</option>
+                                <option value="Enqueued">Enqueued</option>
+                                <option value="Processing">Processing</option>
+                                <option value="Scheduled">Scheduled</option>
+                                <option value="Succeeded">Succeeded</option>
+                                <option value="Failed">Failed</option>
+                                <option value="Deleted">Deleted</option>
+                            </select>
+                        </div>
+                        <div class="hf-prefilter-field hf-prefilter-col-2">
+                            <label class="hf-filter-label" for="filterQueue">Queue</label>
+                            <select id="filterQueue" class="form-select form-select-sm hf-prefilter-input"
+                                    data-filter-label="Queue">
+                                <option value="">All Queues</option>
+                                @foreach (var queue in Model.KnownQueues)
+                                {
+                                    <option value="@queue">@queue</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="hf-prefilter-field hf-prefilter-col-2">
+                            <label class="hf-filter-label" for="filterMethod">Method</label>
+                            <input type="text" id="filterMethod" class="form-control form-control-sm hf-prefilter-input"
+                                   placeholder="e.g. ProcessAlarms" data-filter-label="Method" />
+                        </div>
+                        <div class="hf-prefilter-field hf-prefilter-col-2">
+                            <label class="hf-filter-label" for="filterJobId">Job ID</label>
+                            <input type="text" id="filterJobId" class="form-control form-control-sm hf-prefilter-input"
+                                   placeholder="Exact ID" data-filter-label="Job ID" />
+                        </div>
+                    </div>
+                    <div class="hf-prefilter-row">
+                        <div class="hf-prefilter-field hf-prefilter-col-3">
+                            <label class="hf-filter-label" for="filterDateRange">Enqueued Date Range</label>
+                            <div class="hf-daterange-wrap">
+                                <i class="fas fa-calendar-alt hf-daterange-icon"></i>
+                                <input type="text" id="filterDateRange" readonly
+                                       class="form-control form-control-sm hf-prefilter-input hf-daterange-input"
+                                       placeholder="Select date range…" data-filter-label="Date Range"
+                                       autocomplete="off" />
+                                <button type="button" class="hf-daterange-clear" id="btnClearDateRange" title="Clear date range" style="display:none">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <input type="hidden" id="filterDateFrom" />
+                            <input type="hidden" id="filterDateTo" />
+                        </div>
+                        <div class="hf-prefilter-field hf-prefilter-col-4">
+                            <label class="hf-filter-label" for="filterPayload">Payload Contains</label>
+                            <input type="text" id="filterPayload" class="form-control form-control-sm hf-prefilter-input"
+                                   placeholder="Search inside job arguments JSON…" data-filter-label="Payload" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Table Toolbar ─────────────────────────────────────── -->
+            <div class="hf-table-toolbar">
+                <div class="d-flex align-items-center gap-2">
+                    <label class="hf-filter-label mb-0">Per page:</label>
+                    <select id="filterPageSize" class="form-select form-select-sm" style="width:auto">
+                        @foreach (var size in new[] { 10, 25, 50, 100 })
+                        {
+                            <option value="@size" selected="@(size == Model.DefaultPageSize ? "selected" : null)">@size</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <!-- Jobs Table -->
+            <div class="hf-table-wrapper">
+                <div id="jobsTableContainer">
+                    <div class="hf-loading">
+                        <div class="spinner-border spinner-border-sm text-primary me-2"></div>
+                        Loading jobs...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="hf-pagination d-flex justify-content-between align-items-center mt-2" id="jobsPagination" style="display:none!important">
+                <span class="hf-pagination-info" id="jobsPaginationInfo"></span>
+                <div class="d-flex gap-1">
+                    <button class="btn btn-sm btn-outline-secondary" id="btnPrevPage" disabled>
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span class="btn btn-sm btn-light disabled" id="btnPageIndicator">1</span>
+                    <button class="btn btn-sm btn-outline-secondary" id="btnNextPage" disabled>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Queues Panel ────────────────────────────────────────── -->
+        <div class="tab-pane fade" id="panel-queues" role="tabpanel">
+            <div id="queuesTableContainer">
+                <div class="hf-loading">
+                    <div class="spinner-border spinner-border-sm text-primary me-2"></div>
+                    Loading queues...
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Servers Panel ───────────────────────────────────────── -->
+        <div class="tab-pane fade" id="panel-servers" role="tabpanel">
+            <div id="serversTableContainer">
+                <div class="hf-loading">
+                    <div class="spinner-border spinner-border-sm text-primary me-2"></div>
+                    Loading servers...
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Recurring Panel ────────────────────────────────────── -->
+        <div class="tab-pane fade" id="panel-recurring" role="tabpanel">
+            <div id="recurringTableContainer">
+                <div class="hf-loading">
+                    <div class="spinner-border spinner-border-sm text-primary me-2"></div>
+                    Loading recurring jobs...
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Graphs Panel ───────────────────────────────────────────── -->
+        <div class="tab-pane fade" id="panel-graphs" role="tabpanel">
+            <div class="hf-graphs-toolbar d-flex justify-content-end mb-2">
+                <button class="btn btn-sm btn-outline-secondary" id="btnGraphsRefresh">
+                    <i class="fas fa-sync-alt me-1"></i>Refresh
+                </button>
+            </div>
+            <div class="hf-graphs-row">
+                <div class="hf-chart-card">
+                    <div class="hf-chart-title">Current Distribution</div>
+                    <div class="hf-chart-subtitle">Jobs by state right now</div>
+                    <div class="hf-chart-container hf-chart-donut">
+                        <canvas id="chartDonut"></canvas>
+                    </div>
+                </div>
+                <div class="hf-chart-card hf-chart-card-wide">
+                    <div class="hf-chart-title">Session Trend</div>
+                    <div class="hf-chart-subtitle">Job counts sampled every 30 s this session</div>
+                    <div class="hf-chart-container">
+                        <canvas id="chartTrend"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ── Job Detail Modal ───────────────────────────────────────────── -->
+<div class="modal fade" id="jobDetailModal" tabindex="-1" aria-labelledby="jobDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="jobDetailModalLabel">
+                    <i class="fas fa-info-circle me-2"></i>Job Detail
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="jobDetailModalBody">
+                <div class="hf-loading">
+                    <div class="spinner-border spinner-border-sm text-primary me-2"></div>
+                    Loading...
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-warning" id="modalBtnRequeue" style="display:none">
+                    <i class="fas fa-redo me-1"></i>Requeue
+                </button>
+                <button type="button" class="btn btn-danger" id="modalBtnDelete" style="display:none">
+                    <i class="fas fa-trash me-1"></i>Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="~/hangfire-dashboard/js/hangfire-dashboard.js" asp-append-version="true"></script>
+}

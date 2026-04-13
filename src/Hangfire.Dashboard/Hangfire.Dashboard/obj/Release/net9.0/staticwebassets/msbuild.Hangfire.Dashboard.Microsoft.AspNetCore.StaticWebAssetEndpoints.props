@@ -1,0 +1,28 @@
+﻿<Project>
+  <ItemGroup>
+    <StaticWebAssetEndpoint Include="hangfire-dashboard/css/hangfire-dashboard.css">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\hangfire-dashboard.css'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-/LZMZSrc5s9euCTPr9Tx/Lpslifs5XBwswNzAlNapFA="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"23625"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022/LZMZSrc5s9euCTPr9Tx/Lpslifs5XBwswNzAlNapFA=\u0022"},{"Name":"Last-Modified","Value":"Mon, 13 Apr 2026 17:11:51 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="hangfire-dashboard/css/hangfire-dashboard.opumaawrn2.css">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\hangfire-dashboard.css'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"opumaawrn2"},{"Name":"integrity","Value":"sha256-/LZMZSrc5s9euCTPr9Tx/Lpslifs5XBwswNzAlNapFA="},{"Name":"label","Value":"hangfire-dashboard/css/hangfire-dashboard.css"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"23625"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022/LZMZSrc5s9euCTPr9Tx/Lpslifs5XBwswNzAlNapFA=\u0022"},{"Name":"Last-Modified","Value":"Mon, 13 Apr 2026 17:11:51 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="hangfire-dashboard/js/hangfire-dashboard.js">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\hangfire-dashboard.js'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-klrJZxUp49iM1rwhlxcsmeqRJiXcpbUNQwkKrkodAWk="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"28023"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022klrJZxUp49iM1rwhlxcsmeqRJiXcpbUNQwkKrkodAWk=\u0022"},{"Name":"Last-Modified","Value":"Mon, 13 Apr 2026 17:11:08 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="hangfire-dashboard/js/hangfire-dashboard.yf77seny0o.js">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\hangfire-dashboard.js'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"yf77seny0o"},{"Name":"integrity","Value":"sha256-klrJZxUp49iM1rwhlxcsmeqRJiXcpbUNQwkKrkodAWk="},{"Name":"label","Value":"hangfire-dashboard/js/hangfire-dashboard.js"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"28023"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022klrJZxUp49iM1rwhlxcsmeqRJiXcpbUNQwkKrkodAWk=\u0022"},{"Name":"Last-Modified","Value":"Mon, 13 Apr 2026 17:11:08 GMT"},{"Name":"Vary","Value":"Accept-Encoding"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+  </ItemGroup>
+</Project>

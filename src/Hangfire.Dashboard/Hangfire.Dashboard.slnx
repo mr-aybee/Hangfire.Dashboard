@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="Hangfire.Dashboard/Hangfire.Dashboard.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="../../tests/Hangfire.Dashboard.Tests/Hangfire.Dashboard.Tests.csproj" />
+  </Folder>
+  <Folder Name="/samples/">
+    <Project Path="../../samples/SampleApp.Net8/SampleApp.Net8.csproj" />
+    <Project Path="../../samples/SampleApp.Net9/SampleApp.Net9.csproj" />
+    <Project Path="../../samples/SampleApp.Net10/SampleApp.Net10.csproj" />
+  </Folder>
+</Solution>

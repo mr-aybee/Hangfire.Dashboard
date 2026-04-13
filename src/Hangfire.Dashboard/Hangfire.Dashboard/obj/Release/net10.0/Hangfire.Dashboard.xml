@@ -1,0 +1,643 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Hangfire.Dashboard</name>
+    </assembly>
+    <members>
+        <member name="T:Hangfire.Dashboard.Apis.HangfireController">
+            <summary>
+            HTTP adapter for the Hangfire jobs dashboard.
+            Delegates all business logic to <see cref="T:Hangfire.Dashboard.Services.IHangfireJobService"/>;
+            this class is solely responsible for HTTP concerns (routing, status codes, response wrapping).
+            </summary>
+        </member>
+        <member name="M:Hangfire.Dashboard.Apis.HangfireController.#ctor(Hangfire.Dashboard.Services.IHangfireJobService,Microsoft.Extensions.Logging.ILogger{Hangfire.Dashboard.Apis.HangfireController})">
+            <summary>
+            HTTP adapter for the Hangfire jobs dashboard.
+            Delegates all business logic to <see cref="T:Hangfire.Dashboard.Services.IHangfireJobService"/>;
+            this class is solely responsible for HTTP concerns (routing, status codes, response wrapping).
+            </summary>
+        </member>
+        <member name="M:Hangfire.Dashboard.Apis.HangfireController.GetStats">
+            <summary>
+            Returns overall Hangfire storage statistics (counts per state, servers, recurring jobs).
+            </summary>
+        </member>
+        <member name="M:Hangfire.Dashboard.Apis.HangfireController.GetJobs(Hangfire.Dashboard.Contracts.JobListRequest)">
+            <summary>
+            Returns a paginated, filterable list of jobs across all states (or a specific one).
+            </summary>
+            <param name="request">Filter and pagination parameters.</param>
+        </member>
+        <member name="M:Hangfire.Dashboard.Apis.HangfireController.GetJobDetail(System.String)">
+            <summary>
+            Returns full detail for a single job including parameters, state history, and any exception.
+            </summary>
+            <param name="id">The Hangfire job ID.</param>
+        </member>
+        <member name="M:Hangfire.Dashboard.Apis.HangfireController.RequeueJob(System.String)">
+            <summary>
+            Requeues a failed or deleted job for immediate re-execution.
+            </summary>
+            <param name="id">The Hangfire job ID to requeue.</param>
+        </member>
+        <member name="M:Hangfire.Dashboard.Apis.HangfireController.DeleteJob(System.String)">
+            <summary>
+            Deletes a Hangfire job.
+            </summary>
+            <param name="id">The Hangfire job ID to delete.</param>
+        </member>
+        <member name="M:Hangfire.Dashboard.Apis.HangfireController.GetQueues">
+            <summary>
+            Returns a summary of all Hangfire queues with their current job counts.
+            </summary>
+        </member>
+        <member name="M:Hangfire.Dashboard.Apis.HangfireController.GetServers">
+            <summary>
+            Returns all active Hangfire server instances.
+            </summary>
+        </member>
+        <member name="M:Hangfire.Dashboard.Apis.HangfireController.GetRecurringJobs">
+            <summary>
+            Returns all recurring job definitions registered in Hangfire.
+            </summary>
+        </member>
+        <member name="M:Hangfire.Dashboard.Apis.HangfireController.BulkRequeueJobs(Hangfire.Dashboard.Contracts.BulkJobRequest)">
+            <summary>
+            Requeues a batch of jobs in a single request.
+            </summary>
+            <param name="request">The list of job IDs to requeue.</param>
+        </member>
+        <member name="M:Hangfire.Dashboard.Apis.HangfireController.BulkDeleteJobs(Hangfire.Dashboard.Contracts.BulkJobRequest)">
+            <summary>
+            Deletes a batch of jobs in a single request.
+            </summary>
+            <param name="request">The list of job IDs to delete.</param>
+        </member>
+        <member name="T:Hangfire.Dashboard.Areas.HangfireDashboard.Pages.JobsModel">
+            <summary>
+            Page model for the Hangfire jobs dashboard.
+            Exposes module configuration (queue list, default page size) to the view;
+            all job data is loaded client-side via the HangfireController REST API.
+            </summary>
+        </member>
+        <member name="M:Hangfire.Dashboard.Areas.HangfireDashboard.Pages.JobsModel.#ctor(Microsoft.Extensions.Options.IOptions{Hangfire.Dashboard.Options.HangfireDashboardOptions},Microsoft.Extensions.Logging.ILogger{Hangfire.Dashboard.Areas.HangfireDashboard.Pages.JobsModel})">
+            <summary>
+            Page model for the Hangfire jobs dashboard.
+            Exposes module configuration (queue list, default page size) to the view;
+            all job data is loaded client-side via the HangfireController REST API.
+            </summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Areas.HangfireDashboard.Pages.JobsModel.Title">
+            <summary>
+            Gets the page title.
+            </summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Areas.HangfireDashboard.Pages.JobsModel.KnownQueues">
+            <summary>
+            Gets the list of known queue names for the filter dropdown.
+            </summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Areas.HangfireDashboard.Pages.JobsModel.DefaultPageSize">
+            <summary>
+            Gets the default page size for the jobs table.
+            </summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Areas.HangfireDashboard.Pages.JobsModel.LayoutPath">
+            <summary>
+            Gets the optional custom layout path, or null to use the built-in layout.
+            </summary>
+        </member>
+        <member name="M:Hangfire.Dashboard.Areas.HangfireDashboard.Pages.JobsModel.OnGet">
+            <summary>
+            Handles the GET request. All job data is loaded client-side via AJAX.
+            </summary>
+        </member>
+        <member name="T:Hangfire.Dashboard.Contracts.ApiResponse`1">
+            <summary>
+            Standard API response wrapper with data payload.
+            </summary>
+            <typeparam name="T">The data type.</typeparam>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.ApiResponse`1.Success">
+            <summary>Gets or sets a value indicating whether the request was successful.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.ApiResponse`1.Data">
+            <summary>Gets or sets the response data payload.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.ApiResponse`1.Error">
+            <summary>Gets or sets the error message when <see cref="P:Hangfire.Dashboard.Contracts.ApiResponse`1.Success"/> is false.</summary>
+        </member>
+        <member name="T:Hangfire.Dashboard.Contracts.ApiResponse">
+            <summary>
+            Standard API response wrapper without data payload.
+            </summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.ApiResponse.Success">
+            <summary>Gets or sets a value indicating whether the request was successful.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.ApiResponse.Error">
+            <summary>Gets or sets the error message when <see cref="P:Hangfire.Dashboard.Contracts.ApiResponse.Success"/> is false.</summary>
+        </member>
+        <member name="M:Hangfire.Dashboard.Contracts.ApiResponse.Ok``1(``0)">
+            <summary>Creates a successful response with data.</summary>
+        </member>
+        <member name="M:Hangfire.Dashboard.Contracts.ApiResponse.Ok">
+            <summary>Creates a successful response without data.</summary>
+        </member>
+        <member name="M:Hangfire.Dashboard.Contracts.ApiResponse.Fail(System.String)">
+            <summary>Creates a failed response with an error message.</summary>
+        </member>
+        <member name="M:Hangfire.Dashboard.Contracts.ApiResponse.Fail``1(System.String)">
+            <summary>Creates a failed response with data type and error message.</summary>
+        </member>
+        <member name="T:Hangfire.Dashboard.Contracts.JobListRequest">
+            <summary>
+            Request parameters for querying the jobs list.
+            </summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobListRequest.State">
+            <summary>Gets or sets the job state filter (e.g. Succeeded, Failed, Processing, Enqueued, Scheduled, Deleted).</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobListRequest.Queue">
+            <summary>Gets or sets the queue name filter.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobListRequest.Method">
+            <summary>Gets or sets a substring to match against the job method name.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobListRequest.DateFrom">
+            <summary>Gets or sets the inclusive start of the enqueued-at date range (UTC).</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobListRequest.DateTo">
+            <summary>Gets or sets the inclusive end of the enqueued-at date range (UTC).</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobListRequest.JobId">
+            <summary>Gets or sets an exact job ID to search for.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobListRequest.Page">
+            <summary>Gets or sets the 1-based page number.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobListRequest.PageSize">
+            <summary>Gets or sets the number of items per page.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobListRequest.SortBy">
+            <summary>Gets or sets the property name to sort by (Id, Method, Queue, State, EnqueuedAt, StartedAt, FinishedAt, DurationMs).</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobListRequest.SortDirection">
+            <summary>Gets or sets the sort direction ("asc" or "desc"). Defaults to "desc".</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobListRequest.PayloadSearch">
+            <summary>Gets or sets a substring to match against the serialised JSON payload of the job arguments (case-insensitive contains).</summary>
+        </member>
+        <member name="T:Hangfire.Dashboard.Contracts.BulkJobRequest">
+            <summary>
+            Request body for bulk job operations (delete / requeue).
+            </summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.BulkJobRequest.Ids">
+            <summary>Gets or sets the list of Hangfire job IDs to operate on.</summary>
+        </member>
+        <member name="T:Hangfire.Dashboard.Contracts.BulkJobResultDto">
+            <summary>
+            Result of a bulk job operation, reporting how many succeeded and how many could not be processed.
+            </summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.BulkJobResultDto.Succeeded">
+            <summary>Gets or sets the number of jobs that were successfully processed.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.BulkJobResultDto.Failed">
+            <summary>Gets or sets the number of jobs that could not be processed (wrong state, not found, etc.).</summary>
+        </member>
+        <member name="T:Hangfire.Dashboard.Contracts.JobSummaryDto">
+            <summary>
+            Summary row for a single Hangfire job — shown in the jobs table.
+            </summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobSummaryDto.Id">
+            <summary>Gets or sets the Hangfire job ID.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobSummaryDto.Method">
+            <summary>Gets or sets the fully-qualified method name (e.g. AlarmImportService.ProcessAlarmsAsync).</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobSummaryDto.Queue">
+            <summary>Gets or sets the queue the job was placed in.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobSummaryDto.State">
+            <summary>Gets or sets the current job state.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobSummaryDto.EnqueuedAt">
+            <summary>Gets or sets when the job was created/enqueued (UTC).</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobSummaryDto.StartedAt">
+            <summary>Gets or sets when the job started processing (UTC).</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobSummaryDto.FinishedAt">
+            <summary>Gets or sets when the job finished (UTC).</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobSummaryDto.DurationMs">
+            <summary>Gets or sets the duration in milliseconds (null if not yet finished).</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobSummaryDto.HasError">
+            <summary>Gets or sets a value indicating whether the job failed with an exception.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobSummaryDto.PayloadJson">
+            <summary>Gets or sets the JSON-serialised arguments used only for server-side payload search filtering; not rendered in the UI.</summary>
+        </member>
+        <member name="T:Hangfire.Dashboard.Contracts.JobParameterDto">
+            <summary>
+            A single parameter value for a Hangfire job.
+            </summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobParameterDto.TypeName">
+            <summary>Gets or sets the CLR type name of the parameter.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobParameterDto.JsonValue">
+            <summary>Gets or sets the JSON-serialised value of the parameter.</summary>
+        </member>
+        <member name="T:Hangfire.Dashboard.Contracts.JobDetailDto">
+            <summary>
+            Full detail for a single Hangfire job — shown in the detail modal.
+            </summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobDetailDto.Parameters">
+            <summary>Gets or sets the serialised job parameters.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobDetailDto.StateHistory">
+            <summary>Gets or sets the state history entries, newest first.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobDetailDto.ExceptionMessage">
+            <summary>Gets or sets the exception message if the job failed.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobDetailDto.ExceptionStackTrace">
+            <summary>Gets or sets the full exception stack trace if the job failed.</summary>
+        </member>
+        <member name="T:Hangfire.Dashboard.Contracts.JobStateHistoryDto">
+            <summary>
+            A single entry in a job's state history.
+            </summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobStateHistoryDto.State">
+            <summary>Gets or sets the state name.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobStateHistoryDto.Reason">
+            <summary>Gets or sets the reason/message associated with this state transition.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobStateHistoryDto.EnteredAt">
+            <summary>Gets or sets when this state was entered (UTC).</summary>
+        </member>
+        <member name="T:Hangfire.Dashboard.Contracts.HangfireStatsDto">
+            <summary>
+            Overall Hangfire storage statistics.
+            </summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.HangfireStatsDto.Enqueued">
+            <summary>Gets or sets the number of enqueued jobs.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.HangfireStatsDto.Scheduled">
+            <summary>Gets or sets the number of scheduled jobs.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.HangfireStatsDto.Processing">
+            <summary>Gets or sets the number of jobs currently processing.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.HangfireStatsDto.Succeeded">
+            <summary>Gets or sets the number of succeeded jobs.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.HangfireStatsDto.Failed">
+            <summary>Gets or sets the number of failed jobs.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.HangfireStatsDto.Deleted">
+            <summary>Gets or sets the number of deleted jobs.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.HangfireStatsDto.Recurring">
+            <summary>Gets or sets the number of recurring job definitions.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.HangfireStatsDto.Servers">
+            <summary>Gets or sets the number of active Hangfire servers.</summary>
+        </member>
+        <member name="T:Hangfire.Dashboard.Contracts.QueueSummaryDto">
+            <summary>
+            Summary of a Hangfire queue.
+            </summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.QueueSummaryDto.Name">
+            <summary>Gets or sets the queue name.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.QueueSummaryDto.Length">
+            <summary>Gets or sets the number of enqueued jobs waiting.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.QueueSummaryDto.Fetched">
+            <summary>Gets or sets the number of jobs currently fetched by workers.</summary>
+        </member>
+        <member name="T:Hangfire.Dashboard.Contracts.ServerSummaryDto">
+            <summary>
+            Summary of an active Hangfire server.
+            </summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.ServerSummaryDto.Name">
+            <summary>Gets or sets the server name.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.ServerSummaryDto.Heartbeat">
+            <summary>Gets or sets when the server last sent a heartbeat (UTC).</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.ServerSummaryDto.Queues">
+            <summary>Gets or sets the list of queues this server listens to.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.ServerSummaryDto.WorkersCount">
+            <summary>Gets or sets the number of worker threads.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.ServerSummaryDto.StartedAt">
+            <summary>Gets or sets when this server started (UTC).</summary>
+        </member>
+        <member name="T:Hangfire.Dashboard.Contracts.RecurringJobDto">
+            <summary>
+            A recurring job definition.
+            </summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.RecurringJobDto.Id">
+            <summary>Gets or sets the recurring job ID.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.RecurringJobDto.Method">
+            <summary>Gets or sets the method name.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.RecurringJobDto.Cron">
+            <summary>Gets or sets the cron expression.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.RecurringJobDto.Queue">
+            <summary>Gets or sets the queue this recurring job is placed in.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.RecurringJobDto.NextExecution">
+            <summary>Gets or sets the next scheduled execution (UTC).</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.RecurringJobDto.LastExecution">
+            <summary>Gets or sets the last execution time (UTC).</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.RecurringJobDto.LastJobState">
+            <summary>Gets or sets the state of the most recent job triggered by this recurring job.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.RecurringJobDto.Error">
+            <summary>Gets or sets the error message if the last job failed.</summary>
+        </member>
+        <member name="T:Hangfire.Dashboard.Contracts.JobListResponse`1">
+            <summary>
+            Paginated list response wrapper for job queries.
+            </summary>
+            <typeparam name="T">The item type.</typeparam>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobListResponse`1.Items">
+            <summary>Gets or sets the items on the current page.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobListResponse`1.TotalCount">
+            <summary>Gets or sets the total number of matching items across all pages.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobListResponse`1.Page">
+            <summary>Gets or sets the current 1-based page number.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobListResponse`1.PageSize">
+            <summary>Gets or sets the page size used for this query.</summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Contracts.JobListResponse`1.TotalPages">
+            <summary>Gets or sets the total number of pages.</summary>
+        </member>
+        <member name="T:Hangfire.Dashboard.Extensions.HangfireDashboardServiceCollectionExtensions">
+            <summary>
+            Service registration extension for the Hangfire Dashboard RCL module.
+            </summary>
+        </member>
+        <member name="M:Hangfire.Dashboard.Extensions.HangfireDashboardServiceCollectionExtensions.AddHangfireDashboard(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Hangfire.Dashboard.Options.HangfireDashboardOptions})">
+            <summary>
+            Registers Hangfire Dashboard services and configures module options.
+            Call this from the host's DI registration pipeline, optionally providing
+            a <paramref name="configure"/> delegate to override default settings.
+            </summary>
+            <example>
+            <code>
+            services.AddHangfireDashboard(opts =>
+            {
+                opts.KnownQueues = ["default", "critical", "bulk"];
+                opts.MaxJobsPerStateQuery = 500;
+                opts.DefaultPageSize = 50;
+                opts.Authorization.Roles = ["Admin"];
+            });
+            </code>
+            </example>
+            <param name="services">The service collection to register into.</param>
+            <param name="configure">Optional delegate to customise <see cref="T:Hangfire.Dashboard.Options.HangfireDashboardOptions"/>.</param>
+            <returns>The same service collection for chaining.</returns>
+        </member>
+        <member name="T:Hangfire.Dashboard.Filters.HangfireDashboardAuthorizationFilter">
+            <summary>
+            Authorization filter for the Hangfire Dashboard.
+            Evaluates <see cref="T:Hangfire.Dashboard.Options.HangfireDashboardAuthOptions"/> in precedence order:
+            <c>Filter</c> → <c>Policy</c> → <c>Roles</c> → require-authenticated → <c>AllowAnonymous</c>.
+            Register as a scoped service and apply via <c>[ServiceFilter(typeof(HangfireDashboardAuthorizationFilter))]</c>.
+            </summary>
+        </member>
+        <member name="M:Hangfire.Dashboard.Filters.HangfireDashboardAuthorizationFilter.#ctor(Microsoft.Extensions.Options.IOptions{Hangfire.Dashboard.Options.HangfireDashboardOptions})">
+            <summary>
+            Authorization filter for the Hangfire Dashboard.
+            Evaluates <see cref="T:Hangfire.Dashboard.Options.HangfireDashboardAuthOptions"/> in precedence order:
+            <c>Filter</c> → <c>Policy</c> → <c>Roles</c> → require-authenticated → <c>AllowAnonymous</c>.
+            Register as a scoped service and apply via <c>[ServiceFilter(typeof(HangfireDashboardAuthorizationFilter))]</c>.
+            </summary>
+        </member>
+        <member name="M:Hangfire.Dashboard.Filters.HangfireDashboardAuthorizationFilter.OnAuthorizationAsync(Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:Hangfire.Dashboard.Options.HangfireDashboardAuthOptions">
+            <summary>
+            Authentication and authorization options for the Hangfire Dashboard.
+            Supports three modes: role-based, policy-based, and custom delegate filtering.
+            When multiple modes are configured, precedence is: Filter → Policy → Roles.
+            </summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Options.HangfireDashboardAuthOptions.Roles">
+            <summary>
+            Gets or sets the allowed roles. If set, a user must belong to at least one
+            of these roles to access the dashboard.
+            </summary>
+            <example>
+            <code>opts.Authorization.Roles = ["Admin", "HangfireManager"];</code>
+            </example>
+        </member>
+        <member name="P:Hangfire.Dashboard.Options.HangfireDashboardAuthOptions.Policy">
+            <summary>
+            Gets or sets a named ASP.NET Core authorization policy.
+            When set, the policy is evaluated via <c>IAuthorizationService</c>.
+            </summary>
+            <example>
+            <code>opts.Authorization.Policy = "HangfireAccess";</code>
+            </example>
+        </member>
+        <member name="P:Hangfire.Dashboard.Options.HangfireDashboardAuthOptions.Filter">
+            <summary>
+            Gets or sets a custom authorization delegate. Receives the current <see cref="T:Microsoft.AspNetCore.Http.HttpContext"/>
+            and returns <see langword="true"/> to allow access or <see langword="false"/> to deny.
+            Has the highest precedence when set.
+            </summary>
+            <example>
+            <code>
+            opts.Authorization.Filter = ctx =>
+                ctx.User.Identity?.IsAuthenticated == true
+                &amp;&amp; ctx.User.HasClaim("department", "IT");
+            </code>
+            </example>
+        </member>
+        <member name="P:Hangfire.Dashboard.Options.HangfireDashboardAuthOptions.AllowAnonymous">
+            <summary>
+            Gets or sets a value indicating whether to skip all authorization checks.
+            <b>WARNING:</b> Only use in development environments. Exposes the dashboard to anonymous users.
+            Default: <see langword="false"/>.
+            </summary>
+        </member>
+        <member name="T:Hangfire.Dashboard.Options.HangfireDashboardOptions">
+            <summary>
+            Configuration options for the Hangfire Dashboard RCL module.
+            Configure via <see cref="M:Hangfire.Dashboard.Extensions.HangfireDashboardServiceCollectionExtensions.AddHangfireDashboard(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Hangfire.Dashboard.Options.HangfireDashboardOptions})"/>.
+            </summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Options.HangfireDashboardOptions.KnownQueues">
+            <summary>
+            Gets or sets the list of known queue names displayed in the filter dropdown.
+            Default: default, critical, notifications, emails, reports.
+            </summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Options.HangfireDashboardOptions.MaxJobsPerStateQuery">
+            <summary>
+            Gets or sets the maximum number of jobs fetched from Hangfire storage per state
+            when building the unified jobs list. Higher values allow more complete in-memory
+            filtering but increase memory usage.
+            Default: 1000.
+            </summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Options.HangfireDashboardOptions.DefaultPageSize">
+            <summary>
+            Gets or sets the default page size shown in the jobs table on first load.
+            Default: 25.
+            </summary>
+        </member>
+        <member name="P:Hangfire.Dashboard.Options.HangfireDashboardOptions.LayoutPath">
+            <summary>
+            Gets or sets an optional Razor layout path to override the built-in layout.
+            When <see langword="null"/>, the RCL's built-in Bootstrap 5 layout is used.
+            </summary>
+            <example>
+            <code>opts.LayoutPath = "~/Views/Shared/_Layout.cshtml";</code>
+            </example>
+        </member>
+        <member name="P:Hangfire.Dashboard.Options.HangfireDashboardOptions.Authorization">
+            <summary>
+            Gets the authorization options for the dashboard.
+            </summary>
+        </member>
+        <member name="T:Hangfire.Dashboard.Services.HangfireJobService">
+            <summary>
+            Default implementation of <see cref="T:Hangfire.Dashboard.Services.IHangfireJobService"/>.
+            Wraps Hangfire's <see cref="T:Hangfire.Storage.IMonitoringApi"/> and <see cref="T:Hangfire.IBackgroundJobClient"/>
+            to provide all querying and management operations used by the dashboard.
+            </summary>
+        </member>
+        <member name="M:Hangfire.Dashboard.Services.HangfireJobService.#ctor(Hangfire.JobStorage,Hangfire.IBackgroundJobClient,Microsoft.Extensions.Options.IOptions{Hangfire.Dashboard.Options.HangfireDashboardOptions})">
+            <summary>
+            Default implementation of <see cref="T:Hangfire.Dashboard.Services.IHangfireJobService"/>.
+            Wraps Hangfire's <see cref="T:Hangfire.Storage.IMonitoringApi"/> and <see cref="T:Hangfire.IBackgroundJobClient"/>
+            to provide all querying and management operations used by the dashboard.
+            </summary>
+        </member>
+        <member name="M:Hangfire.Dashboard.Services.HangfireJobService.GetStats">
+            <inheritdoc />
+        </member>
+        <member name="M:Hangfire.Dashboard.Services.HangfireJobService.GetJobs(Hangfire.Dashboard.Contracts.JobListRequest)">
+            <inheritdoc />
+        </member>
+        <member name="M:Hangfire.Dashboard.Services.HangfireJobService.GetJobDetail(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Hangfire.Dashboard.Services.HangfireJobService.GetQueues">
+            <inheritdoc />
+        </member>
+        <member name="M:Hangfire.Dashboard.Services.HangfireJobService.GetServers">
+            <inheritdoc />
+        </member>
+        <member name="M:Hangfire.Dashboard.Services.HangfireJobService.GetRecurringJobs">
+            <inheritdoc />
+        </member>
+        <member name="M:Hangfire.Dashboard.Services.HangfireJobService.RequeueJob(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Hangfire.Dashboard.Services.HangfireJobService.DeleteJob(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Hangfire.Dashboard.Services.HangfireJobService.BulkRequeue(System.Collections.Generic.IReadOnlyList{System.String})">
+            <inheritdoc />
+        </member>
+        <member name="M:Hangfire.Dashboard.Services.HangfireJobService.BulkDelete(System.Collections.Generic.IReadOnlyList{System.String})">
+            <inheritdoc />
+        </member>
+        <member name="T:Hangfire.Dashboard.Services.IHangfireJobService">
+            <summary>
+            Abstraction over Hangfire's monitoring and management APIs.
+            Encapsulates all storage interactions, mapping, filtering, and pagination logic
+            so that the HTTP layer remains a thin adapter.
+            </summary>
+        </member>
+        <member name="M:Hangfire.Dashboard.Services.IHangfireJobService.GetStats">
+            <summary>
+            Returns aggregate statistics across all job states and servers.
+            </summary>
+        </member>
+        <member name="M:Hangfire.Dashboard.Services.IHangfireJobService.GetJobs(Hangfire.Dashboard.Contracts.JobListRequest)">
+            <summary>
+            Returns a paginated, filtered list of jobs across all (or a specific) state.
+            </summary>
+            <param name="request">Filter and pagination parameters.</param>
+        </member>
+        <member name="M:Hangfire.Dashboard.Services.IHangfireJobService.GetJobDetail(System.String)">
+            <summary>
+            Returns full detail for a single job including parameters, state history, and any exception.
+            Returns <see langword="null"/> when the job does not exist in storage.
+            </summary>
+            <param name="id">The Hangfire job ID.</param>
+        </member>
+        <member name="M:Hangfire.Dashboard.Services.IHangfireJobService.GetQueues">
+            <summary>
+            Returns a summary of all queues currently tracked by the storage provider.
+            </summary>
+        </member>
+        <member name="M:Hangfire.Dashboard.Services.IHangfireJobService.GetServers">
+            <summary>
+            Returns all active Hangfire server instances.
+            </summary>
+        </member>
+        <member name="M:Hangfire.Dashboard.Services.IHangfireJobService.GetRecurringJobs">
+            <summary>
+            Returns all recurring job definitions registered in the storage.
+            </summary>
+        </member>
+        <member name="M:Hangfire.Dashboard.Services.IHangfireJobService.RequeueJob(System.String)">
+            <summary>
+            Requeues a job so it will be picked up again by a worker.
+            </summary>
+            <param name="id">The Hangfire job ID.</param>
+            <returns><see langword="true"/> if the job was successfully requeued; <see langword="false"/> if it was not in a requeue-able state.</returns>
+        </member>
+        <member name="M:Hangfire.Dashboard.Services.IHangfireJobService.DeleteJob(System.String)">
+            <summary>
+            Soft-deletes a job by transitioning it to the Deleted state.
+            </summary>
+            <param name="id">The Hangfire job ID.</param>
+            <returns><see langword="true"/> if the job was successfully deleted; <see langword="false"/> otherwise.</returns>
+        </member>
+        <member name="M:Hangfire.Dashboard.Services.IHangfireJobService.BulkRequeue(System.Collections.Generic.IReadOnlyList{System.String})">
+            <summary>
+            Requeues a batch of jobs, returning a count of successes and failures.
+            </summary>
+            <param name="ids">The Hangfire job IDs to requeue.</param>
+        </member>
+        <member name="M:Hangfire.Dashboard.Services.IHangfireJobService.BulkDelete(System.Collections.Generic.IReadOnlyList{System.String})">
+            <summary>
+            Deletes a batch of jobs, returning a count of successes and failures.
+            </summary>
+            <param name="ids">The Hangfire job IDs to delete.</param>
+        </member>
+    </members>
+</doc>
