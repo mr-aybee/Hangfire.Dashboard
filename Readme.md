@@ -1,7 +1,6 @@
 # Hangfire.Dashboard
 
 [![NuGet](https://img.shields.io/nuget/v/Hangfire.Dashboard.svg)](https://www.nuget.org/packages/Hangfire.Dashboard)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 A standalone **Razor Class Library (RCL)** that provides a modern, responsive dashboard UI for [Hangfire](https://www.hangfire.io/) background job processing. Ships as a NuGet package with built-in Bootstrap 5 layout, Chart.js graphs, and configurable authentication/authorisation.
 
@@ -41,6 +40,8 @@ using Hangfire.Dashboard.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add Hangfire with your preferred storage
+var connectionString = builder.Configuration.GetConnectionString("Hangfire")
+    ?? throw new InvalidOperationException("Configure the Hangfire connection string.");
 builder.Services.AddHangfire(cfg => cfg.UseSqlServerStorage(connectionString));
 builder.Services.AddHangfireServer();
 
@@ -64,11 +65,13 @@ app.MapControllers();
 app.Run();
 ```
 
+Configure the `Hangfire` connection string through application configuration or environment variables. Anonymous access is for isolated development only; configure authentication and authorization before exposing the dashboard.
+
 Then navigate to `/Jobs` (Razor Page) or use the API at `/api/v1/hangfire/stats`.
 
 ## Authorisation
 
-The library supports three authorisation modes configured via `HangfireDashboardAuthOptions`:
+The library supports the following authorisation options configured via `HangfireDashboardAuthOptions`:
 
 ### 1. Allow Anonymous (development)
 
@@ -192,7 +195,7 @@ dotnet pack Hangfire.Dashboard/Hangfire.Dashboard.csproj -c Release
 ## Running Tests
 
 ```shell
-dotnet test ../../tests/Hangfire.Dashboard.Tests
+dotnet test ../../tests/Hangfire.Dashboard.Tests/Hangfire.Dashboard.Tests.csproj
 ```
 
 ## Running a Sample App
@@ -206,7 +209,7 @@ Then open `https://localhost:5001/Jobs` in your browser.
 
 ## License
 
-MIT — see [LICENSE](LICENSE) for details.
+The project documentation identifies MIT as the intended license, but a root LICENSE file is not currently present. Confirm licensing before redistribution.
 
 ---
 

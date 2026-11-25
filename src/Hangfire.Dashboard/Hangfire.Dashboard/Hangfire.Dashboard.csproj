@@ -16,7 +16,7 @@
     <PackageProjectUrl>https://abmalik.com</PackageProjectUrl>
     <RepositoryUrl>https://github.com/abmalik/Hangfire.Dashboard</RepositoryUrl>
     <PackageTags>hangfire;dashboard;aspnetcore;razor;background-jobs;rcl</PackageTags>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReadmeFile>Readme.md</PackageReadmeFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\Readme.md" Pack="true" PackagePath="\" Link="README.md" />
+    <None Include="..\..\..\Readme.md" Pack="true" PackagePath="\" Link="Readme.md" />
   </ItemGroup>
 
 </Project>
