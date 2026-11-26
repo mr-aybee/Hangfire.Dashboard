@@ -1,5 +1,9 @@
 # Hangfire.Dashboard
 
+[![CI](https://github.com/mr-aybee/hangfire-dashboard/actions/workflows/ci.yml/badge.svg)](https://github.com/mr-aybee/hangfire-dashboard/actions/workflows/ci.yml)
+![.NET](https://img.shields.io/badge/.NET-8%20%7C%209%20%7C%2010-512BD4)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 [![NuGet](https://img.shields.io/nuget/v/Hangfire.Dashboard.svg)](https://www.nuget.org/packages/Hangfire.Dashboard)
 
 A standalone **Razor Class Library (RCL)** that provides a modern, responsive dashboard UI for [Hangfire](https://www.hangfire.io/) background job processing. Ships as a NuGet package with built-in Bootstrap 5 layout, Chart.js graphs, and configurable authentication/authorisation.
@@ -207,10 +211,14 @@ dotnet run
 
 Then open `https://localhost:5001/Jobs` in your browser.
 
+## Contributing
+
+Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) for the branch, build and pull-request workflow. Please report security issues privately through [GitHub security advisories](https://github.com/mr-aybee/hangfire-dashboard/security/advisories/new), not public issues.
+
+## Code of Conduct
+
+This project follows the [Contributor Covenant](CODE_OF_CONDUCT.md). By participating you agree to uphold it.
+
 ## License
 
-The project documentation identifies MIT as the intended license, but a root LICENSE file is not currently present. Confirm licensing before redistribution.
-
----
-
-*Developed by [abmalik.com](https://abmalik.com)*
+Released under the [MIT License](LICENSE). © 2026 Abdullah Shahid.
